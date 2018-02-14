@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AdditionQuestion.h"
 #import "InputHandling.h"
+#import "ScoreKeeper.h"
 
 //static void extracted(NSCharacterSet **charSet, NSString **inputString) {
 //  char inputChars[255];
@@ -27,33 +28,41 @@
 int main(int argc, const char * argv[]) {
   @autoreleasepool {
     BOOL gameOn = YES;
+    int right = 0;
+    int wrong = 0;
+    ScoreKeeper *score = [[ScoreKeeper alloc] init];
+
     while (gameOn) {
-//      const char * inputChars;
       
       NSCharacterSet * charSet;
       charSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
       NSString * inputString = [InputHandling InputHandler];
-//      extracted(&charSet, &inputString);
       
       if ([inputString isEqualToString:@"quit"]) {
         gameOn = NO;
         break;
       } else {
-      AdditionQuestion *addQ = [[AdditionQuestion alloc] init];
-      NSLog(@"%@", [addQ question]);
-      char userAnswer[255];
-      fgets(userAnswer, 255, stdin);
-      NSString *userAnswerString = [NSString stringWithCString:userAnswer encoding:NSUTF8StringEncoding];
-      userAnswerString = [userAnswerString stringByTrimmingCharactersInSet:charSet];
-      NSInteger userAnswerInt = [userAnswerString integerValue];
-      NSInteger rightAnswer = [addQ answer];
-      if (userAnswerInt == rightAnswer) {
-        NSLog(@"Right!");
-      } else {
-        NSLog(@"Wrong!");
+        AdditionQuestion *addQ = [[AdditionQuestion alloc] init];
+        NSLog(@"%@", [addQ question]);
+        char userAnswer[255];
+        fgets(userAnswer, 255, stdin);
+        NSString *userAnswerString = [NSString stringWithCString:userAnswer encoding:NSUTF8StringEncoding];
+        userAnswerString = [userAnswerString stringByTrimmingCharactersInSet:charSet];
+        NSInteger userAnswerInt = [userAnswerString integerValue];
+        NSInteger rightAnswer = [addQ answer];
+        
+        if (userAnswerInt == rightAnswer) {
+          NSLog(@"Right!");
+          right++;
+        
+        } else {
+          NSLog(@"Wrong!");
+          wrong++;
+        }
       }
-      }
+      
+      [score score:right Wrong:wrong];
     }
   }
   return 0;
