@@ -10,6 +10,7 @@
 #import "AdditionQuestion.h"
 #import "InputHandling.h"
 #import "ScoreKeeper.h"
+#import "QuestionManager.h"
 
 //static void extracted(NSCharacterSet **charSet, NSString **inputString) {
 //  char inputChars[255];
@@ -27,6 +28,8 @@
 
 int main(int argc, const char * argv[]) {
   @autoreleasepool {
+    QuestionManager *qManager = [[QuestionManager alloc] init];
+    
     BOOL gameOn = YES;
     int right = 0;
     int wrong = 0;
@@ -40,13 +43,19 @@ int main(int argc, const char * argv[]) {
       NSString * inputString = [InputHandling InputHandler];
       
       if ([inputString isEqualToString:@"quit"]) {
+        
         gameOn = NO;
         break;
+        
       } else {
+        
         AdditionQuestion *addQ = [[AdditionQuestion alloc] init];
+        [qManager.questions addObject:addQ];
         NSLog(@"%@", [addQ question]);
+        
         char userAnswer[255];
         fgets(userAnswer, 255, stdin);
+        
         NSString *userAnswerString = [NSString stringWithCString:userAnswer encoding:NSUTF8StringEncoding];
         userAnswerString = [userAnswerString stringByTrimmingCharactersInSet:charSet];
         NSInteger userAnswerInt = [userAnswerString integerValue];
@@ -60,6 +69,9 @@ int main(int argc, const char * argv[]) {
           NSLog(@"Wrong!");
           wrong++;
         }
+        
+        NSString *totalAndAverageMessage = [qManager timeOutput:addQ];
+        NSLog(@"%@", totalAndAverageMessage);
       }
       
       [score score:right Wrong:wrong];

@@ -25,6 +25,9 @@
     _question = [NSString stringWithFormat:@"%i + %i", num1, num2 ];
     _answer = num1 + num2;
     
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"s"];
+//    NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
     self.startTime = [NSDate date];
   }
   return self;
@@ -37,7 +40,11 @@
 }
 
 - (NSTimeInterval) answerTime {
-  NSTimeInterval intervalTimeToAnswer = [self.startTime timeIntervalSinceDate:self.endTime];
+//  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//      [dateFormatter setDateFormat:@"s"];
+//      NSLog(@"%@", [dateFormatter stringFromDate:self.startTime]);
+  
+  NSTimeInterval intervalTimeToAnswer = [self.endTime timeIntervalSinceDate:self.startTime];
   return round(intervalTimeToAnswer);
 }
 
