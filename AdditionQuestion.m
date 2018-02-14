@@ -8,6 +8,12 @@
 
 #import "AdditionQuestion.h"
 
+@interface AdditionQuestion ()
+
+@end
+
+
+
 @implementation AdditionQuestion
 
 - (instancetype)init {
@@ -15,15 +21,27 @@
     int num1 = arc4random_uniform(9);
     int num2 = arc4random_uniform(9);
     
-//    NSString *question =
+    
     _question = [NSString stringWithFormat:@"%i + %i", num1, num2 ];
-    int sum = num1 + num2;
-    _answer = sum;
+    _answer = num1 + num2;
+    
+    self.startTime = [NSDate date];
   }
   return self;
 }
 
-- (instancetype)generateRandomQuestion: (int) firstNum secondNumber: (int) secondNum {
-  return 0;
+//defining getter
+- (NSInteger)answer {
+  _endTime = [NSDate date];
+  return _answer;
 }
+
+- (NSTimeInterval) answerTime {
+  NSTimeInterval intervalTimeToAnswer = [self.startTime timeIntervalSinceDate:self.endTime];
+  return round(intervalTimeToAnswer);
+}
+
+
+//- (void)generateQuestion: (int) firstNum secondNumber: (int) secondNum {
+//}
 @end
