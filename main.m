@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AdditionQuestion.h"
+#import "Question.h"
 #import "InputHandling.h"
 #import "ScoreKeeper.h"
 #import "QuestionManager.h"
@@ -49,7 +49,7 @@ int main(int argc, const char * argv[]) {
         
       } else {
         
-        AdditionQuestion *addQ = [[AdditionQuestion alloc] init];
+        Question *addQ = [[Question alloc] init];
         [qManager.questions addObject:addQ];
         NSLog(@"%@", [addQ question]);
         
@@ -70,7 +70,7 @@ int main(int argc, const char * argv[]) {
           wrong++;
         }
         
-        NSString *totalAndAverageMessage = [qManager timeOutput:addQ];
+        NSString *totalAndAverageMessage = [qManager timeOutput];
         NSLog(@"%@", totalAndAverageMessage);
       }
       
