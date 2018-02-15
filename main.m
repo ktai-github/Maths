@@ -11,6 +11,7 @@
 #import "InputHandling.h"
 #import "ScoreKeeper.h"
 #import "QuestionManager.h"
+#import "QuestionFactory.h"
 
 //static void extracted(NSCharacterSet **charSet, NSString **inputString) {
 //  char inputChars[255];
@@ -28,12 +29,14 @@
 
 int main(int argc, const char * argv[]) {
   @autoreleasepool {
-    QuestionManager *qManager = [[QuestionManager alloc] init];
     
     BOOL gameOn = YES;
+    ScoreKeeper *score = [[ScoreKeeper alloc] init];
+//    QuestionFactory *qFac = [[QuestionFactory alloc] init];
+    QuestionManager *qManager = [[QuestionManager alloc] init];
+    
     int right = 0;
     int wrong = 0;
-    ScoreKeeper *score = [[ScoreKeeper alloc] init];
 
     while (gameOn) {
       
@@ -49,9 +52,9 @@ int main(int argc, const char * argv[]) {
         
       } else {
         
-        Question *addQ = [[Question alloc] init];
-        [qManager.questions addObject:addQ];
-        NSLog(@"%@", [addQ question]);
+        QuestionFactory *qFac = [[QuestionFactory alloc] init];
+        [qManager.questions addObject:qFac];
+        NSLog(@"%@", [qFac question]);
         
         char userAnswer[255];
         fgets(userAnswer, 255, stdin);
@@ -59,7 +62,7 @@ int main(int argc, const char * argv[]) {
         NSString *userAnswerString = [NSString stringWithCString:userAnswer encoding:NSUTF8StringEncoding];
         userAnswerString = [userAnswerString stringByTrimmingCharactersInSet:charSet];
         NSInteger userAnswerInt = [userAnswerString integerValue];
-        NSInteger rightAnswer = [addQ answer];
+        NSInteger rightAnswer = [qFac answer];
         
         if (userAnswerInt == rightAnswer) {
           NSLog(@"Right!");
